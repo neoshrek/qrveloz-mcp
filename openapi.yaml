@@ -1,0 +1,306 @@
+openapi: 3.0.3
+info:
+  title: QrVeloz API
+  description: >
+    Public REST API for QrVeloz. Authenticate with an API key via the
+    Authorization header. Get a free API key at https://qrveloz.com/settings
+    or via the MCP server's request_api_key tool (no signup required).
+  version: 1.0.0
+
+servers:
+  - url: https://qrveloz.com
+    description: Production
+
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key generated in Settings → API Keys
+
+  schemas:
+    QrCode:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        shortCode:
+          type: string
+        targetUrl:
+          type: string
+          format: uri
+        isActive:
+          type: boolean
+        imageUrl:
+          type: string
+          format: uri
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+
+paths:
+  /api/v1/qr-codes:
+    get:
+      summary: List QR codes
+      operationId: listQrCodes
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          description: Results per page
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: search
+          in: query
+          description: Case-insensitive substring match on title, short code, or destination URL
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+        - name: qrType
+          in: query
+          description: Filter by QR code type
+          schema:
+            type: string
+            enum: [url, email, sms, phone, whatsapp, wifi, vcard, pdf, audio]
+        - name: isActive
+          in: query
+          description: Filter by active status
+          schema:
+            type: string
+            enum: ["true", "false"]
+        - name: createdAfter
+          in: query
+          description: Only return codes created after this ISO 8601 timestamp
+          schema:
+            type: string
+            format: date-time
+        - name: updatedAfter
+          in: query
+          description: Only return codes updated after this ISO 8601 timestamp
+          schema:
+            type: string
+            format: date-time
+        - name: sort
+          in: query
+          description: Field to sort by
+          schema:
+            type: string
+            enum: [createdAt, updatedAt, title, scanCount]
+            default: createdAt
+        - name: order
+          in: query
+          description: Sort direction
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+      responses:
+        "200":
+          description: Paginated list of QR codes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/QrCode"
+                  total:
+                    type: integer
+                    description: Total matching codes (reflects active filters)
+                  page:
+                    type: integer
+                  limit:
+                    type: integer
+        "400":
+          description: Invalid filter or sort parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "429":
+          description: Rate limit exceeded
+
+    post:
+      summary: Create a QR code
+      operationId: createQrCode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, targetUrl]
+              properties:
+                title:
+                  type: string
+                  maxLength: 200
+                targetUrl:
+                  type: string
+                  format: uri
+                  maxLength: 2048
+      responses:
+        "201":
+          description: QR code created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qrCode:
+                    $ref: "#/components/schemas/QrCode"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Plan limit reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "429":
+          description: Rate limit exceeded
+
+  /api/v1/qr-codes/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      summary: Get a QR code
+      operationId: getQrCode
+      responses:
+        "200":
+          description: QR code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qrCode:
+                    $ref: "#/components/schemas/QrCode"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not found
+        "429":
+          description: Rate limit exceeded
+
+    patch:
+      summary: Update a QR code
+      operationId: updateQrCode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  maxLength: 100
+                targetUrl:
+                  type: string
+                  format: uri
+                  maxLength: 2048
+                qrType:
+                  type: string
+                  enum: [url, email, sms, phone, whatsapp, wifi, vcard, pdf, audio]
+                isActive:
+                  type: boolean
+      responses:
+        "200":
+          description: Updated QR code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qrCode:
+                    $ref: "#/components/schemas/QrCode"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "429":
+          description: Rate limit exceeded
+
+    delete:
+      summary: Delete a QR code
+      operationId: deleteQrCode
+      responses:
+        "204":
+          description: Deleted — no content returned
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "429":
+          description: Rate limit exceeded

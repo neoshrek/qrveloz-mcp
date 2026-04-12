@@ -1,0 +1,16 @@
+{
+  "_comment": "Claude Desktop config — add to ~/Library/Application Support/Claude/claude_desktop_config.json (macOS) or %APPDATA%\\Claude\\claude_desktop_config.json (Windows)",
+  "_comment2": "Replace YOUR_API_KEY with the token returned by request_api_key(). Get one at https://qrveloz.com/settings",
+  "mcpServers": {
+    "qrveloz": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://qrveloz.com/api/mcp",
+        "--header",
+        "Authorization: Bearer YOUR_API_KEY"
+      ]
+    }
+  }
+}

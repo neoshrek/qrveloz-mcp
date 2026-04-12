@@ -1,0 +1,12 @@
+{
+  "_comment": "Cursor MCP config — add to ~/.cursor/mcp.json or via Cursor Settings → MCP",
+  "_comment2": "Replace YOUR_API_KEY with the token returned by request_api_key(). Get one at https://qrveloz.com/settings",
+  "mcpServers": {
+    "qrveloz": {
+      "url": "https://qrveloz.com/api/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
