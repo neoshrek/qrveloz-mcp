@@ -78,7 +78,7 @@ Your QR code is live at `https://qrveloz.com/r/{shortCode}`. Print it — you ca
 | `delete_qr_code` | Required | Permanently delete a QR code and its scan history. |
 | `get_account_info` | Required | Check your plan, usage, and remaining QR code capacity. |
 
-*Anonymous `create_qr_code` returns an ephemeral data-URI image (not stored, not retargetable). Authenticated users get a permanent short URL.
+*Anonymous `create_qr_code` returns an ephemeral QR image URL (not stored, not retargetable). Authenticated users get a permanent short URL and a `qr_image_url` pointing to the generated QR code.
 
 ---
 
@@ -128,6 +128,7 @@ Use the QrVeloz MCP tool to get details for QR code with short code abc123
 |-----------|------|----------|-------------|
 | `page` | integer | No | Page number (default: 1) |
 | `limit` | integer | No | Items per page, max 50 (default: 20) |
+| `include_images` | boolean | No | Include a `qr_image_url` for each code (forces limit ≤ 10) |
 
 **Example prompt:**
 ```

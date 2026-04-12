@@ -9,7 +9,12 @@
       "command": "cmd",
       "args": [
         "/c",
-        "npx -y mcp-remote https://qrveloz.com/api/mcp --header \"Authorization: Bearer YOUR_API_KEY\""
+        "npx",
+        "-y",
+        "mcp-remote",
+        "https://qrveloz.com/api/mcp",
+        "--header",
+        "Authorization: Bearer YOUR_API_KEY"
       ]
     }
   }

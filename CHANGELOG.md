@@ -4,6 +4,21 @@ All notable changes to the QrVeloz MCP server are documented here.
 
 ---
 
+## [1.1.0] — 2026-04-12
+
+### Added
+
+- `create_qr_code` now returns a `qr_image_url` field — a public CDN link to the generated QR PNG, usable directly in any browser or chat UI
+- `get_qr_code` now returns a `qr_image_url` field (uses the branded image if already generated, otherwise a plain QR)
+- `list_qr_codes` accepts a new `include_images` boolean parameter — when true, each item includes a `qr_image_url` (limit capped at 10 when images are requested)
+
+### Fixed
+
+- Authentication error responses now include a structured JSON body with an `action` field that guides the AI client to call `request_api_key` immediately, rather than returning a terse plain-text error
+- Windows Claude Desktop config (`claude-desktop-windows.json`) corrected to use `cmd /c npx` — previously the comment described the fix but the config itself still used plain `npx`, which fails when Node.js is installed in `C:\Program Files`
+
+---
+
 ## [1.0.0] — 2026-04-11
 
 ### Added

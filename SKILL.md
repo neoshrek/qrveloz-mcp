@@ -81,6 +81,11 @@ get_qr_scans(qr_code_id="clxxx...")
 list_qr_codes()
 ```
 
+### List codes with QR image URLs
+```
+list_qr_codes(include_images=true)
+```
+
 ### Check your plan and remaining capacity
 ```
 get_account_info()
