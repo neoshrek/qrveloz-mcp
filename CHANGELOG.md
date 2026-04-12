@@ -10,7 +10,7 @@ All notable changes to the QrVeloz MCP server are documented here.
 
 - `create_qr_code` now returns a `qr_image_url` field — a public CDN link to the generated QR PNG, usable directly in any browser or chat UI
 - `get_qr_code` now returns a `qr_image_url` field (uses the branded image if already generated, otherwise a plain QR)
-- `list_qr_codes` accepts a new `include_images` boolean parameter — when true, each item includes a `qr_image_url` (limit capped at 10 when images are requested)
+- `list_qr_codes` now always returns `qr_image_url` for every item, matching the field set of `get_qr_code` — no extra parameter needed
 
 ### Fixed
 

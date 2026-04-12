@@ -76,14 +76,9 @@ update_qr_target(short_code="abc123", target_url="https://example.com/new-page")
 get_qr_scans(qr_code_id="clxxx...")
 ```
 
-### List all your codes
+### List all your codes (includes QR image URLs)
 ```
 list_qr_codes()
-```
-
-### List codes with QR image URLs
-```
-list_qr_codes(include_images=true)
 ```
 
 ### Check your plan and remaining capacity

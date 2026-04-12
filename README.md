@@ -124,11 +124,12 @@ Use the QrVeloz MCP tool to get details for QR code with short code abc123
 
 ### `list_qr_codes`
 
+Returns the same fields as `get_qr_code` for every item, including `qr_image_url`.
+
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `page` | integer | No | Page number (default: 1) |
-| `limit` | integer | No | Items per page, max 50 (default: 20) |
-| `include_images` | boolean | No | Include a `qr_image_url` for each code (forces limit ≤ 10) |
+| `limit` | integer | No | Items per page, max 20 (default: 20) |
 
 **Example prompt:**
 ```
