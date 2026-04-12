@@ -14,7 +14,7 @@ QrVeloz is a dynamic QR code service. Unlike static QR codes, QrVeloz codes are 
 
 **MCP Server URL:** `https://qrveloz.com/api/mcp`
 
-No signup needed. Call `request_api_key` once and start creating codes immediately.
+No signup needed. Request an API key once and start creating codes immediately.
 
 ---
 
@@ -26,25 +26,30 @@ See [`mcp-config-examples/`](mcp-config-examples/) for ready-to-paste configs:
 
 | Client | Config file |
 |--------|-------------|
-| Claude Desktop | [claude-desktop.json](mcp-config-examples/claude-desktop.json) |
+| Claude Desktop (macOS / Linux) | [claude-desktop.json](mcp-config-examples/claude-desktop.json) |
+| Claude Desktop (Windows) | [claude-desktop-windows.json](mcp-config-examples/claude-desktop-windows.json) |
 | Claude Code | [claude-code.json](mcp-config-examples/claude-code.json) |
 | Cursor | [cursor.json](mcp-config-examples/cursor.json) |
 | Windsurf | [windsurf.json](mcp-config-examples/windsurf.json) |
 | Cline | [cline.json](mcp-config-examples/cline.json) |
 
+> **Claude Desktop on Windows:** use `claude-desktop-windows.json`. The standard `npx` command fails on Windows when Node.js is installed in `C:\Program Files` due to a path-with-spaces issue. The Windows config uses `cmd /c` to work around this.
+
 ### 2 — Get a free API token
 
-No email or password required. In your AI assistant, call:
+No email or password required. In your AI assistant, say:
 
 ```
-request_api_key()
+Use the QrVeloz MCP tool to request an API key
 ```
 
-The token is shown **only once** — save it.
+The token is shown **only once** — save it immediately.
+
+> **Note:** There is a limit of one token request per IP per 24 hours to prevent abuse. If the call fails, wait 24 hours or sign up at [qrveloz.com](https://qrveloz.com) for a permanent account.
 
 ### 3 — Add the token to your client config
 
-Replace `YOUR_API_KEY` in the config file with your token:
+Replace `YOUR_API_KEY` in the config file with your token, then restart your AI client:
 
 ```
 Authorization: Bearer qrv_...
@@ -53,7 +58,7 @@ Authorization: Bearer qrv_...
 ### 4 — Create your first QR code
 
 ```
-create_qr_code(title="My first QR", target_url="https://example.com")
+Use the QrVeloz MCP tool to create a QR code with the title "My first QR" pointing to https://example.com
 ```
 
 Your QR code is live at `https://qrveloz.com/r/{shortCode}`. Print it — you can change the destination any time.
@@ -82,6 +87,11 @@ Your QR code is live at `https://qrveloz.com/r/{shortCode}`. Print it — you ca
 No parameters. Returns a 90-day token. Free accounts get up to 3 permanent codes.  
 To make your account permanent, visit [qrveloz.com/claim](https://qrveloz.com/claim).
 
+**Example prompt:**
+```
+Use the QrVeloz MCP tool to request an API key
+```
+
 ---
 
 ### `create_qr_code`
@@ -90,6 +100,11 @@ To make your account permanent, visit [qrveloz.com/claim](https://qrveloz.com/cl
 |-----------|------|----------|-------------|
 | `title` | string | Yes | Human-readable label (1–200 chars) |
 | `target_url` | string (URL) | Yes | Destination URL — must start with `https://` or `http://` |
+
+**Example prompt:**
+```
+Use the QrVeloz MCP tool to create a QR code titled "Summer Sale" pointing to https://example.com/sale
+```
 
 ---
 
@@ -100,6 +115,11 @@ To make your account permanent, visit [qrveloz.com/claim](https://qrveloz.com/cl
 | `qr_code_id` | string | One of | Internal UUID from `create_qr_code` or `list_qr_codes` |
 | `short_code` | string | One of | Short code from the redirect URL (e.g. `abc123`) |
 
+**Example prompt:**
+```
+Use the QrVeloz MCP tool to get details for QR code with short code abc123
+```
+
 ---
 
 ### `list_qr_codes`
@@ -109,6 +129,11 @@ To make your account permanent, visit [qrveloz.com/claim](https://qrveloz.com/cl
 | `page` | integer | No | Page number (default: 1) |
 | `limit` | integer | No | Items per page, max 50 (default: 20) |
 
+**Example prompt:**
+```
+Use the QrVeloz MCP tool to list all my QR codes
+```
+
 ---
 
 ### `get_qr_scans`
@@ -116,6 +141,11 @@ To make your account permanent, visit [qrveloz.com/claim](https://qrveloz.com/cl
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `qr_code_id` | string | Yes | Internal UUID of the QR code |
+
+**Example prompt:**
+```
+Use the QrVeloz MCP tool to get the scan count for QR code clxyz...
+```
 
 ---
 
@@ -129,6 +159,11 @@ To make your account permanent, visit [qrveloz.com/claim](https://qrveloz.com/cl
 
 > **Note:** PDF and audio QR codes cannot be updated via MCP. Manage those from the dashboard.
 
+**Example prompt:**
+```
+Use the QrVeloz MCP tool to update QR code abc123 to point to https://example.com/new-page
+```
+
 ---
 
 ### `delete_qr_code`
@@ -139,11 +174,21 @@ To make your account permanent, visit [qrveloz.com/claim](https://qrveloz.com/cl
 | `short_code` | string | One of | Short code from the redirect URL |
 | `confirm_title` | string | Yes | Exact title of the QR code — must match character-for-character to prevent accidental deletions |
 
+**Example prompt:**
+```
+Use the QrVeloz MCP tool to delete the QR code titled "Old Campaign"
+```
+
 ---
 
 ### `get_account_info`
 
 No parameters. Returns your current plan, feature flags, QR code usage, and remaining capacity. Useful for AI agents to check before attempting to create codes.
+
+**Example prompt:**
+```
+Use the QrVeloz MCP tool to show my account info
+```
 
 ---
 
@@ -154,7 +199,7 @@ No parameters. Returns your current plan, feature flags, QR code usage, and rema
 | Anonymous | *(none)* | 5 creates/min · 10/hr · 30/day · ephemeral only |
 | Bearer token | `Authorization: Bearer qrv_...` | Plan-based permanent codes, 60 req/min |
 
-Get a token instantly via `request_api_key` — no email required.  
+Get a token instantly — no email required.  
 To claim a permanent account: [qrveloz.com/claim](https://qrveloz.com/claim)
 
 ---
@@ -174,6 +219,42 @@ Ready-to-run scripts are in:
 
 - [`examples/js/`](examples/js/) — Node.js 18+ (no dependencies, uses native `fetch`)
 - [`examples/python/`](examples/python/) — Python 3.8+ (requires `requests`)
+
+---
+
+## Troubleshooting
+
+### The AI assistant doesn't recognise the tool name
+
+Do not type tool names as function calls (e.g. `request_api_key()`). Use natural language instead:
+
+> "Use the QrVeloz MCP tool to request an API key"
+
+### Claude Desktop: `'C:\Program' is not recognized` (Windows)
+
+This is a Windows path-with-spaces error. Node.js installed in `C:\Program Files` causes `cmd.exe` to fail when the path is not quoted.
+
+**Fix:** use [`claude-desktop-windows.json`](mcp-config-examples/claude-desktop-windows.json) which uses `cmd /c` to avoid the issue.
+
+### The MCP server is not connecting
+
+1. Check the **hammer icon** (🔨) in the Claude Desktop chat input bar — it lists connected MCP servers and available tools. If QrVeloz is not listed, the server failed to connect.
+2. Open Claude Desktop logs (`Help → Open Logs Folder`) and look for errors from the `qrveloz` server.
+3. Make sure Node.js 18+ is installed: `node --version`
+4. Make sure `npx` is available: `npx --version`
+5. Try running the connection command manually in a terminal to see raw errors:
+   - **macOS/Linux:** `npx -y mcp-remote https://qrveloz.com/api/mcp`
+   - **Windows:** `npx -y mcp-remote https://qrveloz.com/api/mcp`
+
+### Token was shown but I did not save it
+
+Guest tokens cannot be recovered once the response is dismissed. Options:
+- Wait 24 hours and call `request_api_key` again from the same IP
+- Sign up at [qrveloz.com](https://qrveloz.com) for a permanent account with token management in the Settings dashboard
+
+### Rate limit hit on `request_api_key`
+
+One guest token is issued per IP per 24 hours to prevent abuse. If you hit the limit, wait 24 hours or create a free account at [qrveloz.com](https://qrveloz.com).
 
 ---
 

@@ -1,6 +1,8 @@
 {
-  "_comment": "Claude Desktop config — add to ~/Library/Application Support/Claude/claude_desktop_config.json (macOS) or %APPDATA%\\Claude\\claude_desktop_config.json (Windows)",
-  "_comment2": "Replace YOUR_API_KEY with the token returned by request_api_key(). Get one at https://qrveloz.com/settings",
+  "_comment": "Claude Desktop — macOS / Linux",
+  "_comment_path": "Config file location: ~/Library/Application Support/Claude/claude_desktop_config.json",
+  "_comment_windows": "Windows users: use claude-desktop-windows.json instead — it fixes a path-with-spaces error specific to Windows.",
+  "_comment_steps": "Step 1: Add WITHOUT a token first (remove --header and the line after it), restart Claude Desktop, then say: 'Use the QrVeloz MCP tool to request an API key'. Step 2: Replace YOUR_API_KEY with the returned token, restart again.",
   "mcpServers": {
     "qrveloz": {
       "command": "npx",

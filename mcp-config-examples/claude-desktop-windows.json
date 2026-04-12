@@ -1,0 +1,16 @@
+{
+  "_comment": "Claude Desktop — Windows",
+  "_comment_path": "Config file location: %APPDATA%\\Claude\\claude_desktop_config.json",
+  "_comment_why": "Uses 'cmd /c' to work around a Windows error where Claude Desktop expands 'npx' to 'C:\\Program Files\\nodejs\\npx.cmd' — the space in 'Program Files' causes cmd.exe to fail. This config keeps npx unquoted so Windows resolves it via PATH instead.",
+  "_comment_macos": "macOS / Linux users: use claude-desktop.json instead.",
+  "_comment_steps": "Step 1: Add WITHOUT a token first — remove the --header flag and token from the args string, restart Claude Desktop, then say: 'Use the QrVeloz MCP tool to request an API key'. Step 2: Replace YOUR_API_KEY with the returned token, restart again.",
+  "mcpServers": {
+    "qrveloz": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx -y mcp-remote https://qrveloz.com/api/mcp --header \"Authorization: Bearer YOUR_API_KEY\""
+      ]
+    }
+  }
+}
