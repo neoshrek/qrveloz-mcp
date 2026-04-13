@@ -47,6 +47,8 @@ The token is shown **only once** — save it immediately.
 
 > **Note:** There is a limit of one token request per IP per 24 hours to prevent abuse. If the call fails, wait 24 hours or sign up at [qrveloz.com](https://qrveloz.com) for a permanent account.
 
+> **⚠️ QR code lifetime:** Guest QR codes are permanently deleted ~180 days after the token is issued (90-day token + 90-day grace period). Claim your account at [qrveloz.com/claim](https://qrveloz.com/claim) before the token expires to keep your codes permanently.
+
 ### 3 — Add the token to your client config
 
 Replace `YOUR_API_KEY` in the config file with your token, then restart your AI client:
@@ -84,8 +86,9 @@ Your QR code is live at `https://qrveloz.com/r/{shortCode}`. Print it — you ca
 
 ### `request_api_key`
 
-No parameters. Returns a 90-day token. Free accounts get up to 3 permanent codes.  
-To make your account permanent, visit [qrveloz.com/claim](https://qrveloz.com/claim).
+No parameters. Returns a 90-day token. Free accounts get up to 3 QR codes.
+
+> **⚠️ Important lifetime warning:** The token expires after 90 days. QR codes are **permanently deleted** approximately 90 days after token expiry (~180 days total from creation). To keep your QR codes alive permanently, visit [qrveloz.com/claim](https://qrveloz.com/claim) **before** the token expires to link an email address.
 
 **Example prompt:**
 ```

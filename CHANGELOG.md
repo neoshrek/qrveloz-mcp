@@ -4,6 +4,15 @@ All notable changes to the QrVeloz MCP server are documented here.
 
 ---
 
+## [1.2.0] — 2026-04-13
+
+### Added
+
+- `request_api_key` response now includes explicit `token_expires`, `qr_codes_deleted_after`, and `claim_account_url` fields so users know exactly when their QR codes will be permanently deleted (~180 days from issuance) and where to claim their account to prevent deletion
+- `request_api_key` tool description updated to surface the deletion timeline upfront
+
+---
+
 ## [1.1.0] — 2026-04-12
 
 ### Added
@@ -16,6 +25,10 @@ All notable changes to the QrVeloz MCP server are documented here.
 
 - Authentication error responses now include a structured JSON body with an `action` field that guides the AI client to call `request_api_key` immediately, rather than returning a terse plain-text error
 - Windows Claude Desktop config (`claude-desktop-windows.json`) corrected to use `cmd /c npx` — previously the comment described the fix but the config itself still used plain `npx`, which fails when Node.js is installed in `C:\Program Files`
+
+---
+
+## [1.1.0] — 2026-04-12
 
 ---
 
