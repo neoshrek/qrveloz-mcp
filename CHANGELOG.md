@@ -22,13 +22,13 @@ Initial production release.
 ### Authentication
 
 - Bearer token via `Authorization` header
-- Guest tokens: free, 90-day expiry, up to 3 QR codes; codes permanently deleted ~90 days after token expiry
+- Guest tokens: free, 90-day expiry, up to 5 QR codes; codes permanently deleted ~90 days after token expiry
 - Anonymous `create_qr_code`: ephemeral CDN image, not stored, not retargetable
 
 ### Rate Limits
 
-- Anonymous: 5 creates/min · 10/hr · 30/day
-- Authenticated: 60 requests/min per IP (all tools)
+- **No token:** Up to 30 ephemeral QR images per day. Images are not stored and cannot be retargeted. Call `request_api_key` for a free persistent token.
+- **Guest or registered token:** Up to 5 stored QR codes (Free plan). All tools share a 60 requests/min limit per IP.
 
 ### Transport
 

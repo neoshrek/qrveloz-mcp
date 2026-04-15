@@ -89,7 +89,7 @@ Your QR code is live at `https://qrveloz.com/r/{shortCode}`. Print it — you ca
 
 ### `request_api_key`
 
-No parameters. Returns a 90-day token. Free accounts get up to 3 QR codes.
+No parameters. Returns a 90-day token. Free accounts get up to 5 QR codes.
 
 > **⚠️ Important lifetime warning:** The token expires after 90 days. QR codes are **permanently deleted** approximately 90 days after token expiry (~180 days total from creation). To keep your QR codes alive permanently, visit [qrveloz.com/claim](https://qrveloz.com/claim) **before** the token expires to link an email address.
 
@@ -278,8 +278,8 @@ Use the QrVeloz MCP tool to show my account info
 
 | Mode | Header | Limits |
 |------|--------|--------|
-| Anonymous | *(none)* | 5 creates/min · 10/hr · 30/day · ephemeral only |
-| Bearer token | `Authorization: Bearer qrv_...` | Plan-based permanent codes, 60 req/min |
+| Anonymous | *(none)* | Up to 30 ephemeral images/day — not stored, not retargetable |
+| Bearer token | `Authorization: Bearer qrv_...` | Up to 5 stored codes (Free plan) · 60 req/min across all tools |
 
 Get a token instantly — no email required.  
 To claim a permanent account: [qrveloz.com/claim](https://qrveloz.com/claim)
