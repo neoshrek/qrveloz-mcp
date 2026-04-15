@@ -104,10 +104,10 @@ Use the QrVeloz MCP tool to request an API key
 | `title` | string | Yes | Human-readable label (1–200 chars) |
 | `target_url` | string (URL) | Yes | Destination URL — must start with `https://` or `http://` |
 
-The response is a pre-formatted markdown table — display it exactly as received, do not reformat or summarise.
+When you ask your AI assistant to create a QR code, it returns a formatted table like this:
 
 **Example output (authenticated):**
-```
+
 | Field | Value |
 |---|---|
 | Title | Summer Sale |
@@ -118,7 +118,6 @@ The response is a pre-formatted markdown table — display it exactly as receive
 | Status | Active |
 | Created | April 11, 2026 |
 | QR Code Link | [Download QR Image](https://cdn.digitaloceanspaces.com/qrveloz/qr-temp/ab3k9x.png) |
-```
 
 Guest accounts receive an additional warning block reminding them to claim their account before the token expires.
 
@@ -136,10 +135,10 @@ Use the QrVeloz MCP tool to create a QR code titled "Summer Sale" pointing to ht
 | `qr_code_id` | string | One of | Internal UUID from `create_qr_code` or `list_qr_codes` |
 | `short_code` | string | One of | Short code from the redirect URL (e.g. `abc123`) |
 
-The response is a pre-formatted markdown table — display it exactly as received, do not reformat or summarise.
+Your AI assistant returns a formatted table like this:
 
 **Example output:**
-```
+
 | Field | Value |
 |---|---|
 | Title | Summer Sale |
@@ -150,7 +149,6 @@ The response is a pre-formatted markdown table — display it exactly as receive
 | Status | Active |
 | Created | April 11, 2026 |
 | QR Code Link | [Download QR Image](https://cdn.digitaloceanspaces.com/qrveloz/qr-temp/ab3k9x.png) |
-```
 
 **Example prompt:**
 ```
@@ -166,13 +164,12 @@ Use the QrVeloz MCP tool to get details for QR code with short code abc123
 | `page` | integer | No | Page number (default: 1) |
 | `limit` | integer | No | Items per page, max 20 (default: 20) |
 
-The response is a plain-text summary line followed by one pre-formatted markdown table per QR code — display them exactly as received, do not reformat or summarise.
+Your AI assistant returns a summary line followed by one formatted table per QR code:
 
 **Example output:**
-```
+
 Showing 2 of 2 QR code(s) (page 1)
-```
-```
+
 | Field | Value |
 |---|---|
 | Title | Summer Sale |
@@ -183,8 +180,7 @@ Showing 2 of 2 QR code(s) (page 1)
 | Status | Active |
 | Created | April 11, 2026 |
 | QR Code Link | [Download QR Image](https://cdn.digitaloceanspaces.com/qrveloz/qr-temp/ab3k9x.png) |
-```
-```
+
 | Field | Value |
 |---|---|
 | Title | Conference Badge |
@@ -195,7 +191,6 @@ Showing 2 of 2 QR code(s) (page 1)
 | Status | Active |
 | Created | April 13, 2026 |
 | QR Code Link | [Download QR Image](https://cdn.digitaloceanspaces.com/qrveloz/qr-temp/tz7m2p.png) |
-```
 
 **Example prompt:**
 ```
@@ -210,10 +205,10 @@ Use the QrVeloz MCP tool to list all my QR codes
 |-----------|------|----------|-------------|
 | `qr_code_id` | string | Yes | Internal UUID of the QR code |
 
-Returns the same pre-formatted markdown table as `get_qr_code` with an additional **Total Scans** row appended.
+Your AI assistant returns the same table as `get_qr_code` with an additional **Total Scans** row appended:
 
 **Example output:**
-```
+
 | Field | Value |
 |---|---|
 | Title | Summer Sale |
@@ -225,7 +220,6 @@ Returns the same pre-formatted markdown table as `get_qr_code` with an additiona
 | Created | April 11, 2026 |
 | QR Code Link | [Download QR Image](https://cdn.digitaloceanspaces.com/qrveloz/qr-temp/ab3k9x.png) |
 | Total Scans | 147 |
-```
 
 **Example prompt:**
 ```
