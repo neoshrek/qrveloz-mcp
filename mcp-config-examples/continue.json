@@ -1,0 +1,20 @@
+{
+  "_comment": "Continue — MCP config (VS Code and JetBrains extension)",
+  "_comment_path": "Add the mcpServers block to ~/.continue/config.json",
+  "_comment_docs": "https://docs.continue.dev/customize/context-providers#model-context-protocol-mcp",
+  "_comment_steps": "Step 1: Add WITHOUT a token first — remove the Authorization header, reload the Continue extension, then ask: 'Use the QrVeloz MCP tool to request an API key'. Step 2: Replace YOUR_API_KEY with the returned token and reload.",
+  "mcpServers": [
+    {
+      "name": "qrveloz",
+      "transport": {
+        "type": "streamable-http",
+        "url": "https://qrveloz.com/api/mcp",
+        "requestInit": {
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+  ]
+}

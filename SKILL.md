@@ -19,10 +19,25 @@ This skill connects to the QrVeloz MCP server, enabling you to create and manage
 
 Add the following to your MCP client configuration:
 
-**HTTP clients (Cursor, Windsurf, Cline, Claude Code):**
+**HTTP clients (Cursor, Claude Code, Continue):**
 ```json
 {
   "mcpServers": {
+    "qrveloz": {
+      "type": "http",
+      "url": "https://qrveloz.com/api/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+**VS Code with GitHub Copilot** — save as `.vscode/mcp.json` in your workspace:
+```json
+{
+  "servers": {
     "qrveloz": {
       "type": "http",
       "url": "https://qrveloz.com/api/mcp",

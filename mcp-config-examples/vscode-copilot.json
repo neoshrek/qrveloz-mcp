@@ -1,0 +1,15 @@
+{
+  "_comment": "VS Code with GitHub Copilot — MCP config",
+  "_comment_path": "Create this file at .vscode/mcp.json in your workspace root, or add the 'servers' block to your User settings.json under the 'mcp' key",
+  "_comment_version": "Requires VS Code 1.96 or later with the GitHub Copilot extension",
+  "_comment_steps": "Step 1: Add WITHOUT a token first — remove the Authorization header, open the MCP panel (Ctrl+Shift+P → 'MCP: List Servers'), restart the server, then ask Copilot: 'Use the QrVeloz MCP tool to request an API key'. Step 2: Replace YOUR_API_KEY with the returned token and restart the server.",
+  "servers": {
+    "qrveloz": {
+      "type": "http",
+      "url": "https://qrveloz.com/api/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}

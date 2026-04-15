@@ -30,10 +30,13 @@ See [`mcp-config-examples/`](mcp-config-examples/) for ready-to-paste configs:
 | Claude Desktop (Windows) | [claude-desktop-windows.json](mcp-config-examples/claude-desktop-windows.json) |
 | Claude Code | [claude-code.json](mcp-config-examples/claude-code.json) |
 | Cursor | [cursor.json](mcp-config-examples/cursor.json) |
-| Windsurf | [windsurf.json](mcp-config-examples/windsurf.json) |
-| Cline | [cline.json](mcp-config-examples/cline.json) |
+| VS Code with GitHub Copilot | [vscode-copilot.json](mcp-config-examples/vscode-copilot.json) |
+| Continue | [continue.json](mcp-config-examples/continue.json) |
+| Any other HTTP MCP client | [generic.md](mcp-config-examples/generic.md) |
 
 > **Claude Desktop on Windows:** use `claude-desktop-windows.json`. The standard `npx` command fails on Windows when Node.js is installed in `C:\Program Files` due to a path-with-spaces issue. The Windows config uses `cmd /c` to work around this.
+
+> **VS Code:** requires VS Code 1.96 or later with the GitHub Copilot extension. Place the config at `.vscode/mcp.json` in your workspace root.
 
 ### 2 — Get a free API token
 
@@ -317,13 +320,21 @@ This is a Windows path-with-spaces error. Node.js installed in `C:\Program Files
 
 ### The MCP server is not connecting
 
-1. Check the **hammer icon** (🔨) in the Claude Desktop chat input bar — it lists connected MCP servers and available tools. If QrVeloz is not listed, the server failed to connect.
-2. Open Claude Desktop logs (`Help → Open Logs Folder`) and look for errors from the `qrveloz` server.
-3. Make sure Node.js 18+ is installed: `node --version`
-4. Make sure `npx` is available: `npx --version`
-5. Try running the connection command manually in a terminal to see raw errors:
-   - **macOS/Linux:** `npx -y mcp-remote https://qrveloz.com/api/mcp`
-   - **Windows:** `npx -y mcp-remote https://qrveloz.com/api/mcp`
+**Claude Desktop:**
+1. Check the **hammer icon** (🔨) in the chat input bar — it lists connected servers. If QrVeloz is missing, the server failed to connect.
+2. Open logs via `Help → Open Logs Folder` and look for errors from the `qrveloz` server.
+3. Make sure Node.js 18+ is installed (`node --version`) and `npx` is available (`npx --version`).
+4. Test the connection manually: `npx -y mcp-remote https://qrveloz.com/api/mcp`
+
+**VS Code with GitHub Copilot:**
+1. Open the Command Palette (`Ctrl+Shift+P`) and run `MCP: List Servers` — QrVeloz should appear with status `running`.
+2. If it shows an error, check that VS Code is 1.96+ and the Copilot extension is active.
+3. Make sure `.vscode/mcp.json` is saved and the workspace is open.
+
+**Cursor / Continue / other HTTP clients:**
+1. Verify the URL is exactly `https://qrveloz.com/api/mcp` — no trailing slash.
+2. Confirm the `Authorization` header value starts with `Bearer ` (note the space).
+3. Test the endpoint directly: `curl -X POST https://qrveloz.com/api/mcp -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}'`
 
 ### Token was shown but I did not save it
 
