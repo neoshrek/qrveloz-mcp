@@ -80,7 +80,7 @@ Your QR code is live at `https://qrveloz.com/r/{shortCode}`. Print it — you ca
 | `delete_qr_code` | Required | Permanently delete a QR code and its scan history. |
 | `get_account_info` | Required | Check your plan, usage, and remaining QR code capacity. |
 
-*Anonymous `create_qr_code` returns an ephemeral QR image URL (not stored, not retargetable). Authenticated users get a permanent short URL and a `qr_image_url` pointing to the generated QR code.
+*Anonymous `create_qr_code` returns an ephemeral CDN image URL (not stored, not retargetable). Authenticated users get a permanent short URL. All authenticated tool responses are returned as pre-formatted markdown tables — display them exactly as received.
 
 ---
 
@@ -104,6 +104,24 @@ Use the QrVeloz MCP tool to request an API key
 | `title` | string | Yes | Human-readable label (1–200 chars) |
 | `target_url` | string (URL) | Yes | Destination URL — must start with `https://` or `http://` |
 
+The response is a pre-formatted markdown table — display it exactly as received, do not reformat or summarise.
+
+**Example output (authenticated):**
+```
+| Field | Value |
+|---|---|
+| Title | Summer Sale |
+| ID | clxyz1234abcdef567890 |
+| Short Code | ab3k9x |
+| Short URL | https://qrveloz.com/r/ab3k9x |
+| Destination | https://example.com/sale |
+| Status | Active |
+| Created | April 11, 2026 |
+| QR Code Link | [Download QR Image](https://cdn.digitaloceanspaces.com/qrveloz/qr-temp/ab3k9x.png) |
+```
+
+Guest accounts receive an additional warning block reminding them to claim their account before the token expires.
+
 **Example prompt:**
 ```
 Use the QrVeloz MCP tool to create a QR code titled "Summer Sale" pointing to https://example.com/sale
@@ -118,6 +136,22 @@ Use the QrVeloz MCP tool to create a QR code titled "Summer Sale" pointing to ht
 | `qr_code_id` | string | One of | Internal UUID from `create_qr_code` or `list_qr_codes` |
 | `short_code` | string | One of | Short code from the redirect URL (e.g. `abc123`) |
 
+The response is a pre-formatted markdown table — display it exactly as received, do not reformat or summarise.
+
+**Example output:**
+```
+| Field | Value |
+|---|---|
+| Title | Summer Sale |
+| ID | clxyz1234abcdef567890 |
+| Short Code | ab3k9x |
+| Short URL | https://qrveloz.com/r/ab3k9x |
+| Destination | https://example.com/sale |
+| Status | Active |
+| Created | April 11, 2026 |
+| QR Code Link | [Download QR Image](https://cdn.digitaloceanspaces.com/qrveloz/qr-temp/ab3k9x.png) |
+```
+
 **Example prompt:**
 ```
 Use the QrVeloz MCP tool to get details for QR code with short code abc123
@@ -127,12 +161,41 @@ Use the QrVeloz MCP tool to get details for QR code with short code abc123
 
 ### `list_qr_codes`
 
-Returns the same fields as `get_qr_code` for every item, including `qr_image_url`.
-
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `page` | integer | No | Page number (default: 1) |
 | `limit` | integer | No | Items per page, max 20 (default: 20) |
+
+The response is a plain-text summary line followed by one pre-formatted markdown table per QR code — display them exactly as received, do not reformat or summarise.
+
+**Example output:**
+```
+Showing 2 of 2 QR code(s) (page 1)
+```
+```
+| Field | Value |
+|---|---|
+| Title | Summer Sale |
+| ID | clxyz1234abcdef567890 |
+| Short Code | ab3k9x |
+| Short URL | https://qrveloz.com/r/ab3k9x |
+| Destination | https://example.com/sale |
+| Status | Active |
+| Created | April 11, 2026 |
+| QR Code Link | [Download QR Image](https://cdn.digitaloceanspaces.com/qrveloz/qr-temp/ab3k9x.png) |
+```
+```
+| Field | Value |
+|---|---|
+| Title | Conference Badge |
+| ID | clxyz9876zyxwvu54321 |
+| Short Code | tz7m2p |
+| Short URL | https://qrveloz.com/r/tz7m2p |
+| Destination | https://example.com/conference |
+| Status | Active |
+| Created | April 13, 2026 |
+| QR Code Link | [Download QR Image](https://cdn.digitaloceanspaces.com/qrveloz/qr-temp/tz7m2p.png) |
+```
 
 **Example prompt:**
 ```
@@ -146,6 +209,23 @@ Use the QrVeloz MCP tool to list all my QR codes
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `qr_code_id` | string | Yes | Internal UUID of the QR code |
+
+Returns the same pre-formatted markdown table as `get_qr_code` with an additional **Total Scans** row appended.
+
+**Example output:**
+```
+| Field | Value |
+|---|---|
+| Title | Summer Sale |
+| ID | clxyz1234abcdef567890 |
+| Short Code | ab3k9x |
+| Short URL | https://qrveloz.com/r/ab3k9x |
+| Destination | https://example.com/sale |
+| Status | Active |
+| Created | April 11, 2026 |
+| QR Code Link | [Download QR Image](https://cdn.digitaloceanspaces.com/qrveloz/qr-temp/ab3k9x.png) |
+| Total Scans | 147 |
+```
 
 **Example prompt:**
 ```

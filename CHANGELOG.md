@@ -4,6 +4,19 @@ All notable changes to the QrVeloz MCP server are documented here.
 
 ---
 
+## [1.2.1] — 2026-04-15
+
+### Documentation
+
+- Clarified that `create_qr_code`, `get_qr_code`, `list_qr_codes`, and `get_qr_scans` return pre-formatted markdown tables, not JSON objects — updated README and SKILL.md with accurate example output
+- Fixed anonymous `create_qr_code` description: the returned image is an ephemeral CDN URL, not a data URI
+- Fixed `SKILL.md` examples to use natural language prompts instead of function-call syntax
+- Rewrote `examples/js/get-scans.js`: restored valid `sort=scanCount&order=desc` params, removed broken `qr.scanCount` display (scan count is not returned in list responses — it is a relation aggregate; use the MCP `get_qr_scans` tool for per-code totals)
+- Added clarification note to `openapi.yaml` `sort` parameter explaining that `scanCount` controls ordering only and is not included in response items
+- Removed duplicate `[1.1.0]` changelog entry
+
+---
+
 ## [1.2.0] — 2026-04-13
 
 ### Added
@@ -25,10 +38,6 @@ All notable changes to the QrVeloz MCP server are documented here.
 
 - Authentication error responses now include a structured JSON body with an `action` field that guides the AI client to call `request_api_key` immediately, rather than returning a terse plain-text error
 - Windows Claude Desktop config (`claude-desktop-windows.json`) corrected to use `cmd /c npx` — previously the comment described the fix but the config itself still used plain `npx`, which fails when Node.js is installed in `C:\Program Files`
-
----
-
-## [1.1.0] — 2026-04-12
 
 ---
 

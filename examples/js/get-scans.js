@@ -1,9 +1,11 @@
 /**
- * QrVeloz REST API — Get scan count for all QR codes
+ * QrVeloz REST API — List QR codes sorted by scan count (highest first)
  * Requires Node.js 18+ (uses native fetch)
  *
- * Fetches your QR code list then prints each code's scan statistics.
- * The REST API returns total scans via the list endpoint.
+ * The list endpoint sorts by total scan count but does NOT return the count
+ * per code in the response body. To get the exact scan count for a specific
+ * code, use the MCP get_qr_scans tool or call GET /api/v1/qr-codes/{id}
+ * and check the QrVeloz dashboard for full analytics.
  *
  * Usage:
  *   QRVELOZ_API_KEY=qrv_... node get-scans.js
@@ -32,9 +34,13 @@ async function listQrCodes() {
 
 const { items, total } = await listQrCodes();
 
-console.log(`Scan summary (${total} QR codes, sorted by scan count):\n`);
+console.log(`QR codes sorted by scan count (${total} total):\n`);
 
 for (const qr of items) {
-  const bar = '█'.repeat(Math.min(qr.scanCount ?? 0, 40));
-  console.log(`  ${qr.title.padEnd(30)} ${String(qr.scanCount ?? 0).padStart(6)} scans  ${bar}`);
+  const status = qr.isActive ? 'active' : 'inactive';
+  console.log(`  ${qr.title.padEnd(30)}  ${qr.shortCode}  →  ${qr.targetUrl}  [${status}]`);
 }
+
+console.log('');
+console.log('Note: scan counts are not included in the list response.');
+console.log('Use the MCP get_qr_scans tool for per-code scan totals.');

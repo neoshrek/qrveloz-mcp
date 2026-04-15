@@ -108,7 +108,12 @@ paths:
             format: date-time
         - name: sort
           in: query
-          description: Field to sort by
+          description: >
+            Field to sort by. `scanCount` sorts by total lifetime scans and is
+            fully supported, but the scan count itself is not included in the
+            response body (it is a relation aggregate, not a stored column).
+            To retrieve the scan count for a specific code use the MCP
+            `get_qr_scans` tool or check the QrVeloz dashboard.
           schema:
             type: string
             enum: [createdAt, updatedAt, title, scanCount]

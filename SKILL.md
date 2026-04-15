@@ -52,7 +52,7 @@ Add the following to your MCP client configuration:
 No email required. In your AI assistant:
 
 ```
-request_api_key()
+Use the QrVeloz MCP tool to request an API key
 ```
 
 Replace `YOUR_API_KEY` in your config with the returned token.
@@ -63,27 +63,27 @@ Replace `YOUR_API_KEY` in your config with the returned token.
 
 ### Create a QR code
 ```
-create_qr_code(title="Product launch", target_url="https://example.com/launch")
+Use the QrVeloz MCP tool to create a QR code titled "Product launch" pointing to https://example.com/launch
 ```
 
 ### Change where it points — no reprinting
 ```
-update_qr_target(short_code="abc123", target_url="https://example.com/new-page")
+Use the QrVeloz MCP tool to update QR code abc123 to point to https://example.com/new-page
 ```
 
 ### Check scan analytics
 ```
-get_qr_scans(qr_code_id="clxxx...")
+Use the QrVeloz MCP tool to get the scan count for QR code clxxx...
 ```
 
-### List all your codes (includes QR image URLs)
+### List all your codes
 ```
-list_qr_codes()
+Use the QrVeloz MCP tool to list all my QR codes
 ```
 
 ### Check your plan and remaining capacity
 ```
-get_account_info()
+Use the QrVeloz MCP tool to show my account info
 ```
 
 ---
